@@ -9,8 +9,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const xWord = handleXwordFormat(document.getElementById("xWord").value);
         findWords(bank, length, xWord)
     })
+
+    const clearButton = document.getElementById("clear");
+    clearButton.addEventListener('click', (e)=>{
+        e.preventDefault();
+        clearInputs();
+    })
     // findWords()
 })
+
+
+function clearInputs(){
+    document.getElementById("bank").value = "";
+    document.getElementById("length").value = "";
+    document.getElementById("xWord").value = "";
+}
 
 function handleXwordFormat(xWord){
     if (xWord == "") return "";
