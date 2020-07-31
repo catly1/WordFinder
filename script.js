@@ -9,5 +9,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 })
 
 function findWords(length, options) {
-    fetch('words_alpha.txt').then(res => res.text().then(text => console.log(text)))
+    fetch('words_alpha.txt').then(res => res.text().then(text => {
+        const words = text.split(/\r\n|\n/)
+        console.log(words)
+    }))
 }
