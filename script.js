@@ -6,19 +6,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
         e.preventDefault();
         const bank = document.getElementById("bank").value.split("");
         const length = document.getElementById("length").value;
-        findWords(bank, length)
+        const xWord = handleXwordFormat(document.getElementById("xWord").value);
+        findWords(bank, length, xWord)
     })
     // findWords()
 })
 
-function findWords(bank,length, options) {
+function handleXwordFormat(xWord){
+    if (xWord == "") return "";
+    let obj = {};
+    for (let index = 0; index < xWord.length; index++) {
+        const letter = xWord[index];
+        obj[index] = letter;
+    }
+    return obj;
+}
+
+function findWords(bank,length, xWord) {
     fetch('words_alpha.txt').then(res => res.text().then(text => {
         let matches = []
         const words = text.split(/\r\n|\n/)
         words.forEach(word =>{
 
             if (word.length == length){
-                if (matchWord(word,bank)){
+                if (matchWord(word,bank, xWord)){
                     matches.push(word)
                 }
             }
@@ -38,10 +49,16 @@ function renderResult(matches){
     })
 }
 
-function matchWord(word, bank){
+function matchWord(word, bank, xWord){
     let bankCopy = bank.slice();
     for (let index = 0; index < word.length; index++) {
+
         const letter = word[index];
+        if (xWord != "" && xWord[index] != "*" && xWord[index] != letter) {
+            return false
+        }
+
+
         let bankIndex = bankCopy.indexOf(letter)
         if (bankIndex == -1) {
             return false
