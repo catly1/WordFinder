@@ -1,16 +1,38 @@
 
 
 window.addEventListener('DOMContentLoaded', (event) => {
-    document.getElementById("root").innerHTML = "boob"
-
-    findWords()
-
-
+    const form = document.getElementById("form");
+    form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const bank = document.getElementById("bank").value;
+        const length = document.getElementById("length").value
+        findWords(bank, length)
+    })
+    // findWords()
 })
 
-function findWords(length, options) {
+function findWords(bank,length, options) {
     fetch('words_alpha.txt').then(res => res.text().then(text => {
+        let matches = []
         const words = text.split(/\r\n|\n/)
-        console.log(words)
+        words.forEach(word =>{
+
+            if (word.length == length){
+                matches.push(word)
+            }
+
+        })
+        renderResult(matches)
     }))
+}
+
+function renderResult(matches){
+    const resultsElement = document.getElementById("results")
+    console.log(matches)
+    matches.forEach((match, index) =>{
+        let matchElement = document.createElement("li")
+        matchElement.id = index
+        matchElement.innerHTML = match
+        resultsElement.appendChild(matchElement)
+    })
 }
