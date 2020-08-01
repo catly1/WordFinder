@@ -4,16 +4,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const form = document.getElementById("form");
     form.addEventListener('submit', (e)=>{
         e.preventDefault();
-        const bank = document.getElementById("bank").value.split("");
+        const bank = document.getElementById("bank").value.toLowerCase().split("");
         const length = document.getElementById("length").value;
-        const xWord = handleXwordFormat(document.getElementById("xWord").value);
-        findWords(bank, length, xWord)
+        const xWord = handleXwordFormat(document.getElementById("xWord").value.toLowerCase());
+        clearInputs();
+        if (bank && length){
+            findWords(bank, length, xWord)
+        }
     })
 
     const clearButton = document.getElementById("clear");
     clearButton.addEventListener('click', (e)=>{
         e.preventDefault();
         clearInputs();
+        clearResults();
     })
     // findWords()
 })
@@ -23,6 +27,10 @@ function clearInputs(){
     document.getElementById("bank").value = "";
     document.getElementById("length").value = "";
     document.getElementById("xWord").value = "";
+}
+
+function clearResults(){
+    document.getElementById("results").innerHTML="";
 }
 
 function handleXwordFormat(xWord){
